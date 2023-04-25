@@ -38,6 +38,7 @@ def load_key():
     return open("key.key", "rb").read()
 
 #encrypt_file function takes a file path and a key as input
+def encrypt_file(filename):
     """
     Encrypts a file
     """
