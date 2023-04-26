@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/python3
 
 #Script: Ops 401 Class 06 Ops Challenge Solution
 #Author: Marco Aliaga
