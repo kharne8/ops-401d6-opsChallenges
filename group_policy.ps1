@@ -7,3 +7,4 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\SAM" -Name "Relax
 # Force restart the computer
 Restart-Computer -Force
 
+ 
