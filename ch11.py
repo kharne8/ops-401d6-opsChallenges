@@ -15,7 +15,7 @@
 #Main
 
 #import scapy
-from scapy.all import *
+#from scapy.all import *
 
 #define the target host IP
 targetHost = "scanme.nmap.org"
