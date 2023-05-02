@@ -33,7 +33,7 @@ for port in portRange:
     #check if the response is not None and if it has the SYN/ACK flag set
     if response is not None and response.haslayer(TCP) and response[TCP].flags == 0x12:
         #dend a RST packet to close the connection
-        rstPacket = IP(dst=target_Host)/TCP(dport=port, flags="R")
+        rstPacket = IP(dst=targetHost)/TCP(dport=port, flags="R")
         send(rstPacket, verbose=0)
         print("Port {} is open".format(port))
 
