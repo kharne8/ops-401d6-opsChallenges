@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 
 #Script: Ops 401 Class 11 Ops Challenge Solution
 #Author: Marco Aliaga
@@ -13,8 +13,6 @@
 # If no flag is received, notify the user the port is filtered and silently dropped.
 
 #Main
-
-#!/usr/bin/env python3
 
 #import scapy
 from scapy.all import *
