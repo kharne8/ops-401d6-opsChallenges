@@ -10,124 +10,94 @@
 
 #Main
 
+#import modules
 from cryptography.fernet import Fernet
 import os
 
-#define a get_key function that generates a key and saves it to a file named key.key
-def get_key():
-    """
-    Generates a key and saves it to a file
-    """
+KEY_FILE = "key.key"
+
+def generate_key():
+    """Generates a new key and saves it to a file."""
     key = Fernet.generate_key()
-    with open("key.key", "wb") as key_file:
+    with open(KEY_FILE, "wb") as key_file:
         key_file.write(key)
 
-        
-#define a load_key function that loads the key from the key.key file        
 def load_key():
-    """
-    Loads the previously generated key
-    """
-    return open("key.key", "rb").read()
+    """Loads the key from the key file."""
+    try:
+        with open(KEY_FILE, "rb") as key_file:
+            return key_file.read()
+    except FileNotFoundError:
+        print(f"Key file {KEY_FILE} not found.")
+    except ValueError:
+        print(f"Invalid key in file {KEY_FILE}.")
 
-#encrypt_file function takes a file path and a key as input
-def encrypt_file(filepath):
-    """
-    Encrypts a file or directory and its contents recursively
-    """
-    #generate and load the encryption key
-    get_key()
-    key = load_key()
-    
+def encrypt_file(filepath, key):
+    """Encrypts a file or directory and its contents recursively."""
     if os.path.isfile(filepath):
-        
-        #if the input path is a file, encrypt it
-        f = Fernet(key)
         with open(filepath, "rb") as file:
             file_data = file.read()
-            encrypted_data = f.encrypt(file_data)
+        f = Fernet(key)
+        encrypted_data = f.encrypt(file_data)
         with open(filepath, "wb") as file:
             file.write(encrypted_data)
         print(f"File {filepath} encrypted.")
     elif os.path.isdir(filepath):
-        
-        #if the input path is a directory, recursively encrypt all files within it
         for root, dirs, files in os.walk(filepath):
             for file in files:
                 file_path = os.path.join(root, file)
-                f = Fernet(key)
-                with open(file_path, "rb") as file:
-                    file_data = file.read()
-                    encrypted_data = f.encrypt(file_data)
-                with open(file_path, "wb") as file:
-                    file.write(encrypted_data)
-                print(f"File {file_path} encrypted.")
+                encrypt_file(file_path, key)
     else:
-        print("Invalid file path.")
-        return
-    os.remove("key.key")
-    
-    #decrypt_file function takes a file path and a key as input
-    def decrypt_file(filepath, key):
-    """
-    Decrypts a file or directory and its contents recursively
-    """
+        print(f"Invalid file path {filepath}.")
+
+def decrypt_file(filepath, key):
+    """Decrypts a file or directory and its contents recursively."""
     if os.path.isfile(filepath):
-        # if the input path is a file, decrypt it
-        f = Fernet(key)
         with open(filepath, "rb") as file:
             encrypted_data = file.read()
+        f = Fernet(key)
+        try:
             decrypted_data = f.decrypt(encrypted_data)
-        with open(filepath, "wb") as file:
-            file.write(decrypted_data)
-        print(f"File {filepath} decrypted.")
+        except ValueError:
+            print(f"Unable to decrypt file {filepath}.")
+        else:
+            with open(filepath, "wb") as file:
+                file.write(decrypted_data)
+            print(f"File {filepath} decrypted.")
     elif os.path.isdir(filepath):
-        # if the input path is a directory, recursively decrypt all files within it
         for root, dirs, files in os.walk(filepath):
             for file in files:
                 file_path = os.path.join(root, file)
-                f = Fernet(key)
-                with open(file_path, "rb") as file:
-                    encrypted_data = file.read()
-                    decrypted_data = f.decrypt(encrypted_data)
-                with open(file_path, "wb") as file:
-                    file.write(decrypted_data)
-                print(f"File {file_path} decrypted.")
+                decrypt_file(file_path, key)
     else:
-        print("Invalid file path.")
-        return
+        print(f"Invalid file path {filepath}.")
 
-
-#prompts the user to select a mode => then calls the function based on selection
 def main():
     print("Select a mode:\n1. Encrypt a file\n2. Decrypt a file\n3. Encrypt a message\n4. Decrypt a message")
     mode = input("Mode: ")
-    
     if mode == "1":
         filepath = input("Enter the filepath to the file you want to encrypt: ")
         if not os.path.isfile(filepath):
-            print("Invalid file path.")
+            print(f"Invalid file path {filepath}.")
             return
-        get_key()
+        generate_key()
         key = load_key()
-        encrypt_file(filepath, key)
-        print("File encrypted.")
-        os.remove("key.key")
-        
+        if key:
+            encrypt_file(filepath, key)
+            print("File encrypted.")
+            os.remove(KEY_FILE)
     elif mode == "2":
         filepath = input("Enter the filepath to the file you want to decrypt: ")
         if not os.path.isfile(filepath):
-            print("Invalid file path.")
+            print(f"Invalid file path {filepath}.")
             return
-        get_key()
         key = load_key()
-        decrypt_file(filepath, key)
-        print("File decrypted.")
-        os.remove("key.key")
-        
+        if key:
+            decrypt_file(filepath, key)
+            print("File decrypted.")
     else:
         print("Invalid mode.")
-        
+
 if __name__ == "__main__":
     main()
 
