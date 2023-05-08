@@ -54,11 +54,11 @@ def uptimeSensor(ipAddress):
             # send email using SMTP library
             with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
                 smtp.starttls()
-                smtp.login(sender_email, password)
+                smtp.login(senderEmail, password)
                 smtp.send_message(msg)
 
             # update previous status
-            prev_status = status
+            prevStatus = status
 
         # print the timestamp, response status and ip address requested
         print(f"{timeStamp} Network status: {status} IP: {ipAddress}")
