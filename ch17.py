@@ -27,7 +27,7 @@ def iterator():
         line = file.readline()
     file.close()
 
-def checkPssword():
+def checkPassword():
     userIput = getpass.getpass(prompt="Enter the password to check: ")
     filepath = input("Enter the word list file path: ")
     try:
@@ -89,9 +89,9 @@ Please enter a number:
         if mode == "1":
             iterator()
         elif mode == "2":
-            check_password()
+            checkPassword()
         elif mode == "3":
-            ssh_to_server()
+            sshToServer()
         elif mode == "4":
             break
         else:
