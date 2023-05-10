@@ -1,8 +1,8 @@
 #!/bin/python3
 
-#Script: Ops 401 Class 16 Ops Challenge Solution
+#Script: Ops 401 Class 17 Ops Challenge Solution
 #Author: Marco Aliaga
-#Date of latest revision: 8 May 2023
+#Date of latest revision: 9 May 2023
 #Purpose: In Python, modify ch16 to authenticate to an SSH server by its IP address.:
 #Mode 1: Offensive; Dictionary Iterator
 
