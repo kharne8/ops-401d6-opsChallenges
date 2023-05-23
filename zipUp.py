@@ -1,22 +1,25 @@
+import os
 import zipfile
 
-#prompt user for file path to zip
-file_path = input("Enter the path to the file you want to zip: ")
+def compress_with_password():
+    # Prompt the user to enter the path of the file to compress
+    source_file_path = input("Enter the path of the file to compress: ")
 
-#prompt user for password to encrypt
-password = input("Enter the password you want to use for encryption: ")
+    # Prompt the user to enter the password for encryption
+    password = input("Enter the password to encrypt the file: ")
 
-#create ZipFile object with the given file path
-zip_file = zipfile.ZipFile(file_path + ".zip", mode="w", compression=zipfile.ZIP_DEFLATED)
+    # Get the original file name without the extension
+    file_name = os.path.splitext(os.path.basename(source_file_path))[0]
 
-#write the file to the ZipFile object
-zip_file.write(file_path, arcname="file_name")
+    # Create a new ZipFile object with mode 'w' to write to a new zip file
+    with zipfile.ZipFile(f"{file_name}.zip", mode='w') as zip_file:
+        # Add the source file to the zip file
+        zip_file.write(source_file_path, arcname=f"{file_name}", compress_type=zipfile.ZIP_DEFLATED)
+        # Set the password for the zip file
+        zip_file.setpassword(password.encode('utf-8'))
 
-#set the password for encryption
-zip_file.setpassword(password.encode())
+    print(f"File compressed and encrypted successfully as {file_name}.zip with password {password}!")
 
-#close the ZipFile object
-zip_file.close()
+# Call the function to execute it
+compress_with_password()
 
-#display success message
-print("The file has been zipped and encrypted successfully.")
