@@ -1,3 +1,12 @@
+#!/bin/python3
+
+#Script: Ops 401 Class 26 Ops Challenge Solution
+#Author: Marco Aliaga
+#Date of latest revision: 23 May 2023
+#Purpose: In Python, add a logging functionality to a python script
+
+
+#Main
 import logging
 
 logging.basicConfig(filename='script.log', level=logging.INFO)
@@ -35,3 +44,5 @@ def print_syslog_lines():
     print("Exiting...")
 
 print_syslog_lines()
+
+#End
