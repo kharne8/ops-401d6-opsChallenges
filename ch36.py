@@ -1,3 +1,17 @@
+#!/bin/python
+
+#Script: Ops 401 Class 36 Ops Challenge Solution
+#Author: Marco Aliaga
+#Date of latest revision: 7 JUN 2023
+#Purpose: In Python create a script that executes from a Linux box to perform the following:
+  ## Prompts the user to type a URL or IP address.
+  ## Prompts the user to type a port number.
+  ## Performs banner grabbing using netcat against the target address at the target port; prints the results to the screen then moves on to the step below.
+  ## Performs banner grabbing using telnet against the target address at the target port; prints the results to the screen then moves on to the step below.
+  ## Performs banner grabbing using Nmap against the target address of all well-known ports; prints the results to the screen.
+
+
+#Main
 import os
 import subprocess
 
@@ -42,3 +56,5 @@ print()
 # Perform banner grabbing using Nmap
 print("Banner grabbing using Nmap:")
 nmap_banner_grabbing(target_address)
+
+#End
